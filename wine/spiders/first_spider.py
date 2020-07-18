@@ -41,7 +41,8 @@ class WineSpider(scrapy.Spider):
             item['qoh'] = qoh
             item['states'] = {'CA':{'qoh':qoh, 'price':item['price'], 'regular_price':item['regular_price']}}
 
-            details_link = 'https://www.wine.com/' + wine.xpath('.//a[@class="prodItemInfo_link"]/@href').get()
+            details_link = 'https://www.wine.com' + wine.xpath('.//a[contains(@class, "prodItemInfo_link"]/@href').get()
+            #i.xpath('.//a[contains(@href, "/product/")]')
             yield scrapy.Request(details_link, callback=self.details,  cb_kwargs=dict(item=item.copy()))
 
     def details(self, response, item):
@@ -71,7 +72,7 @@ class WineSpider(scrapy.Spider):
             initials = topic.xpath('.//span[@class="wineRatings_initials"]/text()').get()
             rating_str = topic.xpath('.//span[@class="wineRatings_rating"]/text()').get()
             content = topic.xpath('.//div[@class="pipSecContent_copy"]/text()').get()
-            reviews.append({'reviewer_name':reviewer_name,'initials':initials,'rating_str':rating_str, 'content':content})
+            _reviews.append({'reviewer_name':reviewer_name,'initials':initials,'rating_str':rating_str, 'content':content})
         single_product_url = response.url
         sku = response.xpath('//div[@class="itemNoAndSku"]/span[@class="sku"]/text()').get()
         _product_id = response.xpath('//div[@class="itemNoAndSku"]/span[@class="itemNo"]/text()').get()
