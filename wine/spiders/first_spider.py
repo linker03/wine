@@ -1,7 +1,7 @@
 import scrapy
 from scrapy.spiders import CrawlSpider, Rule
 import logging
-from prac1.items import WineItem
+from wine.items import WineItem
 
 
 class WineSpider(scrapy.Spider):

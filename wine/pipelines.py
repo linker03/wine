@@ -2,8 +2,11 @@
 import datetime
 import mysql.connector
 import sqlalchemy
+from sqlalchemy.orm import Session
 from sqlalchemy import Column, Integer, String, Text,  Boolean, TIMESTAMP, INTEGER, SMALLINT, JSON
 from sqlalchemy.ext.declarative import declarative_base
+
+Base = declarative_base()
 
 class VendorProduct(Base):
     __tablename__ = 'vendor_products'
@@ -92,6 +95,7 @@ class MysqlPipeline(object):
 
     def open_spider(self, spider):
         self.session = Session(bind=self.engine)
+
 
     def close_spider(self, spider):
         self.session.commit()
