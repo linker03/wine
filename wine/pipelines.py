@@ -5,6 +5,7 @@ import sqlalchemy
 from sqlalchemy.orm import Session
 from sqlalchemy import Column, Integer, String, Text,  Boolean, TIMESTAMP, INTEGER, SMALLINT, JSON
 from sqlalchemy.ext.declarative import declarative_base
+import json
 
 Base = declarative_base()
 
@@ -76,16 +77,16 @@ class MysqlPipeline(object):
             item['wine_type'],
             item['region'],
             item['varietals'],
-            item['alcohol_pct'],
+            float(item['alcohol_pct']),
             item['price'],
             item['regular_price'],
             item['vintage'],
             item['image'],
-            item['_reviews'],
+            json.dumps(item['_reviews']),
             item['qoh'],
             item['vendor'],
             item['updated'],
-            item['states'],
+            json.dumps(item['states']),
             item['created'],
             item['updated_time'],
         )

@@ -41,7 +41,7 @@ class WineSpider(scrapy.Spider):
                 item['regular_price'] = regular_price
             item['qoh'] = qoh
             item['states'] = {'CA':{'qoh':qoh, 'price':item['price'], 'regular_price':item['regular_price']}}
-            item['updated'] = True
+            item['updated'] = 1
             item['created'] = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             item['updated_time'] = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
