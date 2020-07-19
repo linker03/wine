@@ -2,6 +2,7 @@ import scrapy
 from scrapy.spiders import CrawlSpider, Rule
 import logging
 from wine.items import WineItem
+import datetime
 
 
 class WineSpider(scrapy.Spider):
@@ -40,8 +41,12 @@ class WineSpider(scrapy.Spider):
                 item['regular_price'] = regular_price
             item['qoh'] = qoh
             item['states'] = {'CA':{'qoh':qoh, 'price':item['price'], 'regular_price':item['regular_price']}}
+            item['updated'] = True
+            item['created'] = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            item['updated_time'] = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
-            details_link = 'https://www.wine.com' + wine.xpath('.//a[contains(@class, "prodItemInfo_link"]/@href').get()
+
+            details_link = 'https://www.wine.com' + wine.xpath('.//a[contains(@class, "prodItemInfo_link")]/@href').get()
             #i.xpath('.//a[contains(@href, "/product/")]')
             yield scrapy.Request(details_link, callback=self.details,  cb_kwargs=dict(item=item.copy()))
 

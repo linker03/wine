@@ -34,7 +34,7 @@ class VendorProduct(Base):
     created = Column(TIMESTAMP, nullable=False)
     updated_time = Column(TIMESTAMP, nullable=False)
 
-    def __init__(self, id, _product_id, single_product_url, name, description, sku, brand, wine_type, region, varietals, alcohol_pct,
+    def __init__(self, _product_id, single_product_url, name, description, sku, brand, wine_type, region, varietals, alcohol_pct,
         price, regular_price, vintage, image, _reviews, qoh, vendor, updated, states, created, updated_time):
         self.id = id
         self._product_id = _product_id
@@ -89,7 +89,7 @@ class MysqlPipeline(object):
             item['created'],
             item['updated_time'],
         )
-        vp = VendorProduct(values)
+        vp = VendorProduct(*values)
         self.session.add(vp)
         return item
 
