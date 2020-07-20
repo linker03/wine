@@ -37,7 +37,6 @@ class VendorProduct(Base):
 
     def __init__(self, _product_id, single_product_url, name, description, sku, brand, wine_type, region, varietals, alcohol_pct,
         price, regular_price, vintage, image, _reviews, qoh, vendor, updated, states, created, updated_time):
-        self.id = id
         self._product_id = _product_id
         self.single_product_url = single_product_url
         self.name = name
@@ -82,11 +81,11 @@ class MysqlPipeline(object):
             item['regular_price'],
             item['vintage'],
             item['image'],
-            json.dumps(item['_reviews']),
+            item['_reviews'],
             item['qoh'],
             item['vendor'],
             item['updated'],
-            json.dumps(item['states']),
+            item['states'],
             item['created'],
             item['updated_time'],
         )
