@@ -73,7 +73,7 @@ class MysqlPipeline(object):
             item['_product_id'],
             item['single_product_url'],
             item['name'],
-            item['description'],
+            str(item['description']),
             item['sku'],
             item['brand'],
             item['wine_type'],
