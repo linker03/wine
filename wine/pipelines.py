@@ -6,8 +6,11 @@ from sqlalchemy.orm import Session
 from sqlalchemy import Column, Integer, String, Text,  Boolean, TIMESTAMP, INTEGER, SMALLINT, JSON
 from sqlalchemy.ext.declarative import declarative_base
 import json
+from itemadapter import ItemAdapter
+import logging
 
 Base = declarative_base()
+logging.basicConfig(filename='pipe.log', filemode='w')
 
 class VendorProduct(Base):
     __tablename__ = 'vendor_products'
@@ -89,6 +92,7 @@ class MysqlPipeline(object):
             item['created'],
             item['updated_time'],
         )
+        logging.warning(i.__class__ for i in values)
         vp = VendorProduct(*values)
         self.session.add(vp)
         return item
@@ -101,8 +105,19 @@ class MysqlPipeline(object):
         self.session.commit()
         self.session.close()
 
+class JsonPipeline(object):
+    def open_spider(self, spider):
+        self.file = open('items.jl', 'w')
 
+    def close_spider(self, spider):
+        self.file.close()
 
+    def process_item(self, item, spider):
+        line = json.dumps(ItemAdapter(item).asdict()) + "\n"
+        self.file.write(line)
+        print([i.__class__ for i in item.values()])
+        logging.warning([i.__class__ for i in item.values()])
+        return item
 """   Конект к базе при открытии паука,
 Дисконект при закрытии паука,
 Проверка есть ли значение перед переходом ко второй функции
