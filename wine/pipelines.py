@@ -7,10 +7,8 @@ from sqlalchemy import Column, Integer, String, Text,  Boolean, TIMESTAMP, INTEG
 from sqlalchemy.ext.declarative import declarative_base
 import json
 from itemadapter import ItemAdapter
-import logging
 
 Base = declarative_base()
-logging.basicConfig(filename='pipe.log', filemode='w')
 
 class VendorProduct(Base):
     __tablename__ = 'vendor_products'
@@ -92,7 +90,6 @@ class MysqlPipeline(object):
             item['created'],
             item['updated_time'],
         )
-        logging.warning(i.__class__ for i in values)
         vp = VendorProduct(*values)
         self.session.add(vp)
         return item
@@ -116,7 +113,6 @@ class JsonPipeline(object):
         line = json.dumps(ItemAdapter(item).asdict()) + "\n"
         self.file.write(line)
         print([i.__class__ for i in item.values()])
-        logging.warning([i.__class__ for i in item.values()])
         return item
 """   Конект к базе при открытии паука,
 Дисконект при закрытии паука,

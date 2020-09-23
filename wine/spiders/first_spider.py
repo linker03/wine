@@ -8,9 +8,30 @@ import datetime
 class WineSpider(scrapy.Spider):
 
     name = 'wine_crawler'
+    # /7155-266/2?sortBy страница меняется здесь
     start_urls = ['https://www.wine.com/list/wine/standard-750ml/7155-266/1?sortBy=topRated&ratingmin=89']
+    # start_urls = ['file:///home/soty/Documents/work/pythonista/scrapy_wine/wine/wine.html']
 
+    # Подключение к базе, для последующих запросов.
+    # In [1]: from sqlalchemy import create_engine
+    # In [2]: from sqlalchemy.orm import sessionmaker
+    # In [3]: some_engine = create_engine('mysql+mysqlconnector://Soty89:Bespredel0@localhost:3306/wine',echo=True)
+    # In [4]: Session = sessionmaker(bind=some_engine)
+    # In [5]: session = Session()
+    # In [6]: from wine.pipelines import VendorProduct
 
+    # TODO:
+    # Прогнать по 10 первым страницам, просмотреть результаты.
+    # Если получиться заполнить словарить по видам вин.
+    # Разобраться с логированием, мне бы не нужны все данные от логирования, но и кое-что нужно,
+    # чего он не показывает.
+    # Настроить условный оператор на проверку есть ли продукт в базе.
+    # Если есть обновить в нем qoh, price, regular_price, states.
+    # Сравнить ratings и _reviews по длинне. Если длинны отличаются, то ныряем глубже. 
+    # Разобраться с прокси найти себе постоянный источник прокси, либо какую-то штуку, которая проверяет
+    # их на жизнеспособность самостоятельно.
+    # Изучить многопоточность. ЭТО В САМОМ КОНЦЕ.
+    # Посмотреть сколько стоит платный прокси.
     def parse(self, response):
         all_wines = response.xpath('//li[contains(@class,"prodItem")]')
         for wine in all_wines:
@@ -96,8 +117,8 @@ class WineSpider(scrapy.Spider):
         yield item
 
 
-		#curl --socks5 206.81.2.118:1080  https://www.wine.com/list/wine/7155   работает
-        #curl -o --socks5 104.248.63.49:30588 https://www.wine.com/list/wine/7155  --output wine.html
+		#curl --socks5 18.183.221.43:1080  https://www.wine.com/list/wine/7155   работает
+        #curl -o --socks5 192.252.215.3:4145 https://www.wine.com/list/wine/7155  --output wine.html
 #https://qna.habr.com/q/11762
 #https://qna.habr.com/q/189501?_ga=2.124209353.2144875100.1592149590-766709717.1591667658
 # Удалять лишние символы из строк   посмотреть функцию фильтр
