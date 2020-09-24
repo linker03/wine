@@ -9,7 +9,12 @@ class WineSpider(scrapy.Spider):
 
     name = 'wine_crawler'
     # /7155-266/2?sortBy страница меняется здесь
-    start_urls = ['https://www.wine.com/list/wine/standard-750ml/7155-266/1?sortBy=topRated&ratingmin=89']
+    start_urls = ['https://www.wine.com/list/wine/standard-750ml/7155-266/1?sortBy=topRated&ratingmin=89',
+    'https://www.wine.com/list/wine/standard-750ml/7155-266/2?sortBy=topRated&ratingmin=89',
+    'https://www.wine.com/list/wine/standard-750ml/7155-266/3?sortBy=topRated&ratingmin=89',
+    'https://www.wine.com/list/wine/standard-750ml/7155-266/4?sortBy=topRated&ratingmin=89',
+    'https://www.wine.com/list/wine/standard-750ml/7155-266/5?sortBy=topRated&ratingmin=89',
+    'https://www.wine.com/list/wine/standard-750ml/7155-266/6?sortBy=topRated&ratingmin=89',]
     # start_urls = ['file:///home/soty/Documents/work/pythonista/scrapy_wine/wine/wine.html']
 
     # Подключение к базе, для последующих запросов.
@@ -27,7 +32,7 @@ class WineSpider(scrapy.Spider):
     # чего он не показывает.
     # Настроить условный оператор на проверку есть ли продукт в базе.
     # Если есть обновить в нем qoh, price, regular_price, states.
-    # Сравнить ratings и _reviews по длинне. Если длинны отличаются, то ныряем глубже. 
+    # Сравнить ratings и _reviews по длинне. Если длинны отличаются, то ныряем глубже.
     # Разобраться с прокси найти себе постоянный источник прокси, либо какую-то штуку, которая проверяет
     # их на жизнеспособность самостоятельно.
     # Изучить многопоточность. ЭТО В САМОМ КОНЦЕ.
@@ -65,7 +70,6 @@ class WineSpider(scrapy.Spider):
             item['updated'] = True
             item['created'] = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             item['updated_time'] = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-
 
             details_link = 'https://www.wine.com' + wine.xpath('.//a[contains(@class, "prodItemInfo_link")]/@href').get()
             #i.xpath('.//a[contains(@href, "/product/")]')

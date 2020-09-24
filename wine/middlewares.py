@@ -11,8 +11,8 @@ from w3lib.http import basic_auth_header
 
 class CustomProxyMiddleware(object):
     def process_request(self, request, spider):
-        proxy = '38.77.36.35'
-        port = '8080'
+        proxy = '3.7.167.112'
+        port = '80'
         request.meta['proxy'] = 'https://'+proxy+':'+port
         request.headers['Proxy-Authorization'] = basic_auth_header('','')
 
